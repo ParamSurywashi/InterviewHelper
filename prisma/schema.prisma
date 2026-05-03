@@ -1,0 +1,78 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  name         String
+  password     String
+  experience   String?       @default("3 Years 10 Months")
+  targetRole   String?       @default("Frontend Developer")
+  createdAt    DateTime      @default(now())
+  applications Application[]
+  companies    Company[]
+  weeklyPlans  WeeklyPlan[]
+}
+
+model Application {
+  id              String    @id @default(cuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName     String
+  jobRole         String
+  location        String?
+  wfhMode         String?   @default("Hybrid")
+  appliedOn       DateTime  @default(now())
+  source          String?   @default("LinkedIn")
+  appStatus       String    @default("Applied")
+  telephonicRound String    @default("Pending")
+  technicalRound1 String    @default("Pending")
+  technicalRound2 String    @default("Pending")
+  hrRound         String    @default("Pending")
+  currentStage    String?
+  ctcExpected     String?
+  ctcOffered      String?
+  offerDate       DateTime?
+  followUpOn      DateTime?
+  notes           String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Company {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName  String
+  location     String?
+  wfhPolicy    String?  @default("Hybrid")
+  techStack    String?
+  careersPage  String?
+  linkedinPage String?
+  priority     String   @default("Medium")
+  applied      String   @default("No")
+  notes        String?
+  createdAt    DateTime @default(now())
+}
+
+model WeeklyPlan {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  weekNumber        Int
+  day               String
+  applyTarget       Int      @default(3)
+  companiesToTarget String?
+  followUpNeeded    String?
+  prepTopic         String?
+  linkedinActions   String?
+  status            String   @default("Planned")
+  notes             String?
+  createdAt         DateTime @default(now())
+}
