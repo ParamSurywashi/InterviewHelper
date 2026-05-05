@@ -4,7 +4,13 @@ import { Save, Loader2, User, Mail, Briefcase, Clock, Star, TrendingUp } from 'l
 
 interface Profile { id: string; name: string; email: string; experience: string; targetRole: string; createdAt: string }
 
-const JOB_ROLES = ['Frontend Developer','React Developer','Senior React Developer','MERN Stack Developer','Software Engineer','Senior Software Engineer','Full Stack Developer','UI Developer','JavaScript Developer','Next.js Developer']
+const JOB_ROLES = ['Frontend Developer', 'React Developer', 'Senior React Developer',
+  'MERN Stack Developer', 'Software Engineer', 'Senior Software Engineer',
+  'Senior React Developer', 'Frontend Engineer', 'Full Stack React Developer',
+  'Full Stack Javascript Developer', 'Senior Front-end Software Engineer',
+  'React.js & Next.js Developer', 'Frontend Software Developer', 'SDE-I',
+  'Full Stack Developer', 'UI Developer', 'JavaScript Developer',
+  'Next.js Developer', 'TypeScript Developer', 'Backend Developer', 'Flutter Developer','others JOB Role']
 
 const TIPS = [
   { icon: '🎯', tip: 'Apply to at least 3 companies every weekday to hit 60+ applications per month.' },
