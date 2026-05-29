@@ -4,151 +4,70 @@ import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Eye, EyeOff, Loader2 } from 'lucide-react'
-
+import { Eye, EyeOff, Loader2, BarChart2, Target, Shield } from 'lucide-react'
 export default function LoginPage() {
   const router = useRouter()
-  const [form, setForm] = useState({ email: '', password: '' })
+  const [form, setForm] = useState({ email:'', password:'' })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [showPw, setShowPw] = useState(false)
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setLoading(true); setError('')
-    const res = await signIn('credentials', { ...form, redirect: false })
-    if (res?.ok) { router.push('/dashboard') }
+  async function handleSubmit(e:React.FormEvent) {
+    e.preventDefault(); setLoading(true); setError('')
+    const res = await signIn('credentials', { ...form, redirect:false })
+    if (res?.ok) router.push('/dashboard')
     else { setError('Invalid email or password.'); setLoading(false) }
   }
-
   return (
-    <div
-      className="min-h-screen flex items-center justify-center px-4"
-      style={{
-        background: "linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)",
-      }}
-    >
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="w-10 h-10 rounded-xl overflow-hidden">
-            <Image
-              src="/IH-logo.png"
-              alt="Interview Helper"
-              width={42}
-              height={42}
-              className="object-cover"
-            />
+    <div className="loginwrapper">
+      <div className="auth-left">
+        <div>
+          <div className="mb-12">
+            <Image src="/logo.png" alt="IH" width={72} height={72} className="rounded-2xl ring-4 ring-white/10 mb-4"/>
+            <p className="text-white font-black text-xl leading-none">InterviewHelper</p>
+            <p className="text-[10px] text-purple-400 font-bold tracking-widest mt-1">PLAN · APPLY · PREPARE · SUCCEED</p>
           </div>
-          <h1 className="text-3xl font-bold text-white">Welcome back</h1>
-          <p className="text-slate-400 mt-2">
-            Sign in to your InterviewHelper account
-          </p>
+          <h2 className="text-3xl font-black text-white mb-4 leading-tight">Land your dream<br/><span className="text-yellow-400">tech role faster</span></h2>
+          <p className="text-slate-300 text-sm leading-relaxed mb-10">Complete CRM for Frontend, React & MERN developers to track applications, monitor rounds, and stay organised.</p>
+          <div className="space-y-4">
+            {[{icon:BarChart2,text:'Live charts & analytics'},{icon:Target,text:'Application round tracker'},{icon:Shield,text:'Secure & private'}].map(({icon:Icon,text})=>(
+              <div key={text} className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{background:'rgba(255,255,255,0.1)'}}><Icon className="w-4 h-4 text-purple-300"/></div>
+                <span className="text-slate-300 text-sm">{text}</span>
+              </div>
+            ))}
+          </div>
         </div>
-
-        <div className="bg-white rounded-2xl p-8 shadow-2xl">
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 mb-6 text-sm">
-              {error}
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                placeholder="you@example.com"
-                required
-                className="input-field"
-                value={form.email}
-                onChange={(e) =>
-                  setForm((p) => ({ ...p, email: e.target.value }))
-                }
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">
-                Password
-              </label>
+        <p className="text-xs text-slate-600">© 2026 InterviewHelper. All rights reserved.</p>
+      </div>
+      <div className="auth-right">
+        <div className="w-full max-w-[400px]">
+          <div className="flex flex-col items-center mb-8 lg:hidden">
+            <Image src="/logo.png" alt="IH" width={64} height={64} className="rounded-2xl mb-3"/>
+            <p className="font-black text-slate-800 dark:text-white text-lg">InterviewHelper</p>
+          </div>
+          <h3 className="text-2xl font-black text-slate-900 dark:text-white text-center">Sign in</h3>
+          <p className="text-slate-500 dark:text-slate-400 text-sm text-center mt-1 mb-6">Track your job hunt like a pro</p>
+          {error && <div className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded-xl px-4 py-3 text-sm mb-4">{error}</div>}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="form-group mb-0"><label className="form-label">Email</label><input type="email" required placeholder="you@example.com" className="form-input" value={form.email} onChange={e=>setForm(p=>({...p,email:e.target.value}))}/></div>
+            <div className="form-group mb-0"><label className="form-label">Password</label>
               <div className="relative">
-                <input
-                  type={showPw ? "text" : "password"}
-                  placeholder="••••••••"
-                  required
-                  className="input-field pr-10"
-                  value={form.password}
-                  onChange={(e) =>
-                    setForm((p) => ({ ...p, password: e.target.value }))
-                  }
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPw((p) => !p)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-                >
-                  {showPw ? (
-                    <EyeOff className="w-4 h-4" />
-                  ) : (
-                    <Eye className="w-4 h-4" />
-                  )}
-                </button>
+                <input type={showPw?'text':'password'} required placeholder="••••••••" className="form-input pr-10" value={form.password} onChange={e=>setForm(p=>({...p,password:e.target.value}))}/>
+                <button type="button" onClick={()=>setShowPw(p=>!p)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">{showPw?<EyeOff className="w-4 h-4"/>:<Eye className="w-4 h-4"/>}</button>
               </div>
             </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn-primary w-full justify-center py-3"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" /> Signing in...
-                </>
-              ) : (
-                "Sign In"
-              )}
+            <button type="submit" disabled={loading} className="btn btn-dark w-full h-11">
+              {loading?<><Loader2 className="w-4 h-4 animate-spin"/>Signing in...</>:'Sign In'}
             </button>
           </form>
-
-          <div className="mt-6 text-center">
-            <p className="text-sm text-slate-500">
-              Don&apos;t have an account?{" "}
-              <Link
-                href="/signup"
-                className="text-indigo-600 font-semibold hover:text-indigo-700"
-              >
-                Sign up
-              </Link>
-            </p>
-            <p className="text-sm text-slate-400 mt-3">
-              or{" "}
-              <Link
-                href="/guest"
-                className="text-slate-500 hover:text-slate-700 underline"
-              >
-                continue as guest
-              </Link>
-            </p>
+          <div className="mt-5 p-4 rounded-xl bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-900/40">
+            <p className="text-xs font-bold text-indigo-700 dark:text-indigo-300 mb-1">🎯 Demo Credentials</p>
+            <p className="text-xs text-indigo-600 dark:text-indigo-400">demo@interviewhelper.com / password123</p>
           </div>
-
-          <div className="mt-5 p-4 bg-indigo-50 rounded-xl border border-indigo-100">
-            <p className="text-xs text-indigo-600 font-semibold mb-1">
-              Demo Credentials
-            </p>
-            <p className="text-xs text-indigo-500">
-              Email: demo@interviewhelper.com
-            </p>
-            <p className="text-xs text-indigo-500">Password: password123</p>
-          </div>
+          <p className="text-center text-sm text-slate-500 mt-5">Don&apos;t have an account? <Link href="/signup" className="font-bold hover:underline" style={{color:'var(--primary)'}}>Sign up free</Link></p>
+          <p className="text-center text-xs text-slate-400 mt-2">or <Link href="/guest" className="underline text-slate-500">continue as guest</Link></p>
         </div>
-
-        <p className="text-center text-slate-600 text-sm mt-6">
-          <Link href="/" className="hover:text-slate-400">
-            ← Back to home
-          </Link>
-        </p>
       </div>
     </div>
-  );
+  )
 }

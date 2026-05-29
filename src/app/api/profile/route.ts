@@ -2,18 +2,16 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-
 export async function GET() {
-  const session = await getServerSession(authOptions)
-  if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const user = await prisma.user.findUnique({ where: { id: session.user.id }, select: { id: true, name: true, email: true, experience: true, targetRole: true, createdAt: true } })
-  return NextResponse.json(user)
+  const s = await getServerSession(authOptions)
+  if (!s?.user?.id) return NextResponse.json({error:'Unauthorized'},{status:401})
+  const u = await prisma.user.findUnique({where:{id:s.user.id},select:{id:true,name:true,email:true,experience:true,targetRole:true,createdAt:true}})
+  return NextResponse.json(u)
 }
-
 export async function PUT(req: NextRequest) {
-  const session = await getServerSession(authOptions)
-  if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const body = await req.json()
-  const user = await prisma.user.update({ where: { id: session.user.id }, data: { name: body.name, experience: body.experience, targetRole: body.targetRole } })
-  return NextResponse.json(user)
+  const s = await getServerSession(authOptions)
+  if (!s?.user?.id) return NextResponse.json({error:'Unauthorized'},{status:401})
+  const b = await req.json()
+  const u = await prisma.user.update({where:{id:s.user.id},data:{name:b.name,experience:b.experience,targetRole:b.targetRole}})
+  return NextResponse.json(u)
 }
