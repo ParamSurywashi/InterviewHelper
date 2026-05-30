@@ -33,7 +33,7 @@ export default function PlannerPage() {
   }
   async function updStatus(id:string,status:string) { await fetch('/api/planner',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,status})}); setPlans(p=>p.map(pl=>pl.id===id?{...pl,status}:pl)) }
   const wp = plans.filter(p=>p.weekNumber===week)
-  const wns = [...new Set(plans.map(p=>p.weekNumber))].sort()
+  const wns = Array.from(new Set(plans.map(p => p.weekNumber))).sort((a, b) => a - b)
   const done = wp.filter(p=>p.status==='Done ✅').length
   return (
     <div className="space-y-5 animate-fade-in">
