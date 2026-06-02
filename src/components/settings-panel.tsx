@@ -90,9 +90,8 @@ export function SettingsPanel() {
                   key={c.k}
                   onClick={() => update({ color: c.k as AppSettings["color"] })}
                   title={c.n}
-                  className={`flex flex-col items-center gap-1.5 p-2 rounded-xl border-2 transition-all ${
-                    settings.color === c.k ? "scale-105" : "border-transparent"
-                  }`}
+                  className={`flex flex-col items-center gap-1.5 p-2 rounded-xl border-2 transition-all ${settings.color === c.k ? "scale-105" : "border-transparent"
+                    }`}
                   style={settings.color === c.k ? { borderColor: c.h } : {}}
                 >
                   <div
@@ -120,9 +119,9 @@ export function SettingsPanel() {
                   style={
                     settings.theme === v
                       ? {
-                          borderColor: "var(--primary)",
-                          background: "var(--primary)",
-                        }
+                        borderColor: "var(--primary)",
+                        background: "var(--primary)",
+                      }
                       : {}
                   }
                 >
@@ -167,9 +166,9 @@ export function SettingsPanel() {
                     style={
                       v === "gradient"
                         ? {
-                            background:
-                              "linear-gradient(160deg,#1e293b,#0f172a)",
-                          }
+                          background:
+                            "linear-gradient(160deg,#1e293b,#0f172a)",
+                        }
                         : {}
                     }
                   />
@@ -193,10 +192,10 @@ export function SettingsPanel() {
                   style={
                     settings.skin === v
                       ? {
-                          borderColor: "var(--primary)",
-                          background: "var(--primary-light)",
-                          color: "var(--primary)",
-                        }
+                        borderColor: "var(--primary)",
+                        background: "var(--primary-light)",
+                        color: "var(--primary)",
+                      }
                       : {}
                   }
                 >
